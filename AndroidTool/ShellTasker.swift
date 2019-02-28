@@ -8,42 +8,47 @@
 
 import Cocoa
 
-
-protocol ShellTaskDelegate {
-    func shellTaskDidBegin()
-    func shellTaskDidFinish()
-}
-
 class ShellTasker: NSObject {
-    var scriptFile:String
-    var task:Process!
-    var outputIsVerbose = false;
     
-    init(scriptFile:String){
+    private let scriptFile: String
+    private var task: Process?
+    private var disposable: Any? {
+        didSet {
+            NotificationCenter.default.removeObserver(disposable as Any)
+        }
+    }
+    var outputIsVerbose = false
+    
+    init(scriptFile:String) {
         self.scriptFile = scriptFile
         print("T:\(scriptFile)")
     }
     
-    func stop(){
-        task.terminate()
+    deinit {
+        NotificationCenter.default.removeObserver(disposable as Any)
     }
     
-    func postNotification(_ message:NSString, channel:String){
-        NotificationCenter.default.post(name: Notification.Name(rawValue: channel), object: message)
+    func stop(){
+        task?.terminate()
+    }
+    
+    func postNotification(_ message: String, channel: Notification.Name){
+        NotificationCenter.default.post(name: channel,
+                                        object: message as NSString)
     }
     
     func run(
-            arguments args:[String]=[],
-            isUserScript:Bool = false,
-            isIOS:Bool = false,
-            complete:@escaping (_ output:NSString)-> Void) {
+            arguments args: [String] = [],
+            isUserScript: Bool = false,
+            isIOS: Bool = false,
+            complete: @escaping (_ output: String) -> Void) {
         
         let scriptPath = isUserScript
             ? scriptFile
             : Bundle.main.path(forResource: scriptFile, ofType: "sh")!
         let resourcesPath = Bundle.main.resourcePath!
         
-        task = Process()
+        let task = Process()
         task.launchPath = "/bin/bash"
         let pipe = Pipe()
         
@@ -77,29 +82,29 @@ class ShellTasker: NSObject {
         ]
         
         // post a notification with the command, for the rawoutput debugging window
-        postNotification(scriptPath as NSString, channel: notificationChannel())
-        
-        self.task.launch()
+        postNotification(scriptPath, channel: notificationChannel())
+        self.task = task
+        task.launch()
         
         pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         
-        NotificationCenter.default.addObserver(
-            forName:NSNotification.Name.NSFileHandleDataAvailable,
+        disposable = NotificationCenter.default.addObserver(
+            forName: .NSFileHandleDataAvailable,
             object: pipe.fileHandleForReading,
             queue: nil)
         { (notification) -> Void in
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+            DispatchQueue.global(priority: .default).async {
                 let data = pipe.fileHandleForReading.availableData
-                let output = NSString(data: data, encoding: String.Encoding.utf8.rawValue)!
-                DispatchQueue.main.async(execute: { () -> Void in
+                let output = String(data: data, encoding: .utf8)!
+                DispatchQueue.main.async {
                     self.postNotification(output, channel: self.notificationChannel())
                     complete(output)
-                })
-            })
+                }
+            }
         }
     }
     
-    private func notificationChannel() -> String {
-        return self.outputIsVerbose ? C.NOTIF_NEWDATAVERBOSE : C.NOTIF_NEWDATA
+    private func notificationChannel() -> Notification.Name {
+        return outputIsVerbose ? .newDataVerbose : .newData
     }
 }

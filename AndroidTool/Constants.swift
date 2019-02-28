@@ -9,8 +9,6 @@
 import Cocoa
 
 class Constants {
-    static let NOTIF_NEWDATA = "mj.newData"
-    static let NOTIF_NEWDATAVERBOSE = "mj.newDataVerbose"
     static let NOTIF_NEWSESSION = "mj.newSession"
     static let NOTIF_ALLOUTPUT = "mj.newAllOutput"
     static let NOTIF_COMMAND = "mj.command"
@@ -64,4 +62,12 @@ class Constants {
     static let MUTE = "mute"
     static let BATTERYLEVEL = "batteryLevel"
     static let CHARGING = "charging"
+}
+
+extension Notification.Name {
+    
+    static let newData = "mj.newData"
+    static let newDataVerbose = "mj.newDataVerbose"
+
+    
 }
