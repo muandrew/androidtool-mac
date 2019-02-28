@@ -37,7 +37,7 @@ class Script {
     }
     
     func run(
-            arguments args: [String] = [],
+            arguments additionalArguments: [String] = [],
             isUserScript: Bool = false,
             isIOS: Bool = false,
             onCompletion: @escaping (_ output: String) -> Void) {
@@ -51,27 +51,26 @@ class Script {
         task.launchPath = "/bin/bash"
         let pipe = Pipe()
         
-        var allArguments = [String]()
-        allArguments.append("\(scriptPath)") // $1
-        
+        let platformSpecificArgument: String
         if !isIOS {
-            allArguments.append(resourcesPath) // $1
+            platformSpecificArgument = resourcesPath // $1
         } else {
             let imobileUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "idevicescreenshot", ofType: "")!).deletingLastPathComponent()
             let imobilePath = imobileUrl.path
             //let imobilePath = NSBundle.mainBundle().pathForResource("idevicescreenshot", ofType: "")?.stringByDeletingLastPathComponent
-            allArguments.append(imobilePath) // $1
+            platformSpecificArgument = imobilePath // $1
         }
-        
-        allArguments.append(contentsOf: args)
-        
+        let arguments = [
+            "\(scriptPath)",
+            platformSpecificArgument
+        ] + additionalArguments
         let defaultAndroidSdkRoot = resourcesPath + "/android-sdk"
         let useUserAndroidSdkRoot = preferences.useUserAndroidSdkRoot
         let androidSdkRoot = useUserAndroidSdkRoot
             ? preferences.androidSdkRoot ?? defaultAndroidSdkRoot
             : defaultAndroidSdkRoot
         
-        task.arguments = allArguments
+        task.arguments = arguments
         task.standardOutput = pipe
         task.standardError = pipe
         task.environment = [
