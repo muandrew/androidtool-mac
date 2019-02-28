@@ -66,8 +66,33 @@ class Constants {
 
 extension Notification.Name {
     
-    static let newData = "mj.newData"
-    static let newDataVerbose = "mj.newDataVerbose"
+    static let newData = NSNotification.Name("mj.newData")
+    static let newDataVerbose = NSNotification.Name("mj.newDataVerbose")
+
+    
+}
+
+let preferences = UserDefaults.standard
+
+extension UserDefaults {
+    
+    var useUserAndroidSdkRoot: Bool {
+        get {
+            return bool(forKey: #function)
+        }
+        set {
+            set(newValue, forKey: #function)
+        }
+    }
+    
+    var androidSdkRoot: String? {
+        get {
+            return string(forKey: #function)
+        }
+        set {
+            set(newValue, forKey: #function)
+        }
+    }
 
     
 }

@@ -28,7 +28,7 @@ class TerminalOutputTextView: NSTextView {
     }
     
     func startListening(){
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Constants.NOTIF_NEWDATA), object: nil, queue: nil) { (notif) -> Void in
+        NotificationCenter.default.addObserver(forName: .newData, object: nil, queue: nil) { (notif) -> Void in
             Swift.print("#mj.newData notif")
             
             DispatchQueue.main.async(execute: { () -> Void in
@@ -38,7 +38,7 @@ class TerminalOutputTextView: NSTextView {
             })
         }
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: C.NOTIF_NEWDATAVERBOSE), object: nil, queue: nil) { (notif) -> Void in
+        NotificationCenter.default.addObserver(forName: .newDataVerbose, object: nil, queue: nil) { (notif) -> Void in
             Swift.print("#mj.newData verbose notif")
             
             let wantsVerbose = UserDefaults.standard.bool(forKey: C.PREF_VERBOSEOUTPUT)

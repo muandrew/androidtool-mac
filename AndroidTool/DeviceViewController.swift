@@ -96,7 +96,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
         if device.deviceOS == DeviceOS.ios {
             print("IOS screenshot")
             let args = [device.uuid!, getFolderForScreenshots()]
-            ShellTasker(scriptFile: "takeScreenshotOfDeviceWithUUID").run(arguments: args, isUserScript: false, isIOS: true, complete: { (output) -> Void in
+            ShellTasker(scriptFile: "takeScreenshotOfDeviceWithUUID").run(arguments: args, isUserScript: false, isIOS: true, onCompletion: { (output) -> Void in
                 self.setStatus("Screenshot ready")
                 self.stopProgressIndication()
                 NSUserNotification.deliver("Screenshot ready", moreInfo: "", sound: true)
@@ -159,7 +159,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
     func exitDemoModeIfNeeded(){
         if self.shouldChangeStatusBar() {
             self.setStatus("Changing status bar back to normal")
-            ShellTasker(scriptFile: "exitDemoMode").run(arguments: [self.device.adbIdentifier!], isUserScript: false, isIOS: false, complete: { (output) -> Void in
+            ShellTasker(scriptFile: "exitDemoMode").run(arguments: [self.device.adbIdentifier!], isUserScript: false, isIOS: false, onCompletion: { (output) -> Void in
                 // done, back to normal
             })
         }
@@ -300,7 +300,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
             self.videoButton.image = restingButton
             let postProcessTask = ShellTasker(scriptFile: "postProcessMovieForSerial")
 
-            postProcessTask.run(arguments: args, complete: { (output) -> Void in
+            postProcessTask.run(arguments: args, onCompletion: { (output) -> Void in
                 NSUserNotification.deliver("Your recording is ready", moreInfo: "", sound: true)
                 self.exitDemoModeIfNeeded()
                 self.setStatus("Recording finished")
