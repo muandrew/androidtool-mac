@@ -159,7 +159,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if deviceVC.device.deviceOS == DeviceOS.android {
                 let adbIdentifier = deviceVC.device.adbIdentifier!
                 deviceVC.startProgressIndication()
-                ShellTasker(scriptFile: scriptPath).run(arguments: ["\(adbIdentifier)"], isUserScript: true) { (output) -> Void in
+                Script(fileName:  scriptPath).run(arguments: ["\(adbIdentifier)"], isUserScript: true) { (output) -> Void in
                         deviceVC.stopProgressIndication()
                 }
             }

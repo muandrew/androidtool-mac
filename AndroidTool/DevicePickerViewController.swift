@@ -50,7 +50,7 @@ class DevicePickerViewController: NSViewController, NSTableViewDelegate, NSTable
         let args = ["\(adbIdentifier)",
                     "\(apkPath)"]
         
-        ShellTasker(scriptFile: "installApkOnDevice").run(arguments: args) { (output) -> Void in
+        Script(fileName:  "installApkOnDevice").run(arguments: args) { (output) -> Void in
 
             NSUserNotification.deliver("App installed on \(device.readableIdentifier())", moreInfo: "\(output)", sound: true)
             if #available(OSX 10.10, *) {

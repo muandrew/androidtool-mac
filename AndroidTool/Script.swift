@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class ShellTasker {
+class Script {
     
-    private let scriptFile: String
+    private let fileName: String
     
     private var task: Process?
     
@@ -22,9 +22,9 @@ class ShellTasker {
     
     var outputIsVerbose = false
     
-    init(scriptFile:String) {
-        self.scriptFile = scriptFile
-        print("T:\(scriptFile)")
+    init(fileName:String) {
+        self.fileName = fileName
+        print("T:\(fileName)")
     }
     
     deinit {
@@ -43,8 +43,8 @@ class ShellTasker {
             onCompletion: @escaping (_ output: String) -> Void) {
         
         let scriptPath = isUserScript
-            ? scriptFile
-            : Bundle.main.path(forResource: scriptFile, ofType: "sh")!
+            ? fileName
+            : Bundle.main.path(forResource: fileName, ofType: "sh")!
         let resourcesPath = Bundle.main.resourcePath!
         
         let task = Process()

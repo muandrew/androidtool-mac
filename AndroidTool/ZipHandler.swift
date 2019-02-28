@@ -28,7 +28,7 @@ class ZipHandler: NSObject {
     func flash(){
         print(">>zip flash")
         delegate?.zipHandlerDidStart()
-        let shell = ShellTasker(scriptFile: "installZip")
+        let shell = Script(fileName:  "installZip")
         print("startin flashing")
         shell.run(arguments: [self.device.adbIdentifier!, self.filepath]) { (output) -> Void in
             print("done flashing")

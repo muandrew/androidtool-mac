@@ -75,7 +75,7 @@ class Device: NSObject {
             }
         }
         
-        let task = ShellTasker(scriptFile: "getResolutionForSerial")
+        let task = Script(fileName:  "getResolutionForSerial")
         task.outputIsVerbose = true
         task.run(arguments: ["\(self.adbIdentifier!)"], isUserScript: false) { (output) -> Void in
             let res = output as String
@@ -93,7 +93,7 @@ class Device: NSObject {
     
     
     func getCurrentActivity(_ completion:@escaping (_ activityName:String)->Void){
-        let task = ShellTasker(scriptFile: "getCurrentActivityForIdentifier")
+        let task = Script(fileName:  "getCurrentActivityForIdentifier")
         task.outputIsVerbose = true
         task.run(arguments: ["\(self.adbIdentifier!)"], isUserScript: false, isIOS: false) { (output) -> Void in
             let res = output as String
