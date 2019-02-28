@@ -32,7 +32,7 @@ class UITweaker: NSObject {
             cmdString = "\(tweak.command)~\(cmdString)"
         }
         
-        ShellTasker(scriptFile: "setDemoModeOptions").run(arguments: [self.adbIdentifier, cmdString], isUserScript: false, isIOS: false) { (output) -> Void in
+        Script(fileName:  "setDemoModeOptions").run(arguments: [self.adbIdentifier, cmdString], isUserScript: false, isIOS: false) { (output) -> Void in
 //            print("Done executing \(cmdString)")
             print(output)
             callback()
@@ -119,7 +119,7 @@ class UITweaker: NSObject {
     
     func end(){
         
-        ShellTasker(scriptFile: "exitDemoMode").run(arguments: [self.adbIdentifier], isUserScript: false, isIOS: false) { (output) -> Void in
+        Script(fileName:  "exitDemoMode").run(arguments: [self.adbIdentifier], isUserScript: false, isIOS: false) { (output) -> Void in
             ///aaaaand done
         }
     }

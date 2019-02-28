@@ -36,7 +36,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
     
     
     var iosHelper : IOSDeviceHelper!
-    var shellTasker : ShellTasker!
+    var shellTasker : Script!
     var isRecording = false
     var moreOpen = false
     var moreShouldClose = false
@@ -96,7 +96,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
         if device.deviceOS == DeviceOS.ios {
             print("IOS screenshot")
             let args = [device.uuid!, getFolderForScreenshots()]
-            ShellTasker(scriptFile: "takeScreenshotOfDeviceWithUUID").run(arguments: args, isUserScript: false, isIOS: true, onCompletion: { (output) -> Void in
+            Script(fileName:  "takeScreenshotOfDeviceWithUUID").run(arguments: args, isUserScript: false, isIOS: true, onCompletion: { (output) -> Void in
                 self.setStatus("Screenshot ready")
                 self.stopProgressIndication()
                 NSUserNotification.deliver("Screenshot ready", moreInfo: "", sound: true)
@@ -147,7 +147,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
                     activity
         ]
         
-        ShellTasker(scriptFile: "takeScreenshotOfDeviceWithSerial").run(arguments: args) { (output) -> Void in
+        Script(fileName:  "takeScreenshotOfDeviceWithSerial").run(arguments: args) { (output) -> Void in
             NSUserNotification.deliver("Screenshot ready", moreInfo: "", sound: true)
             self.exitDemoModeIfNeeded()
             self.stopProgressIndication()
@@ -159,7 +159,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
     func exitDemoModeIfNeeded(){
         if self.shouldChangeStatusBar() {
             self.setStatus("Changing status bar back to normal")
-            ShellTasker(scriptFile: "exitDemoMode").run(arguments: [self.device.adbIdentifier!], isUserScript: false, isIOS: false, onCompletion: { (output) -> Void in
+            Script(fileName:  "exitDemoMode").run(arguments: [self.device.adbIdentifier!], isUserScript: false, isIOS: false, onCompletion: { (output) -> Void in
                 // done, back to normal
             })
         }
@@ -266,7 +266,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
     }
     
     func startRecordingOnAndroidDevice(_ restingButton:NSImage){
-        shellTasker = ShellTasker(scriptFile: "startRecordingForSerial")
+        shellTasker = Script(fileName:  "startRecordingForSerial")
         
         let scalePref = UserDefaults.standard.double(forKey: C.PREF_SCALE)
         let bitratePref = Int(UserDefaults.standard.double(forKey: C.PREF_BIT_RATE))
@@ -298,7 +298,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
             self.cameraButton.isEnabled = true
             self.moreButton.isEnabled = true
             self.videoButton.image = restingButton
-            let postProcessTask = ShellTasker(scriptFile: "postProcessMovieForSerial")
+            let postProcessTask = Script(fileName:  "postProcessMovieForSerial")
 
             postProcessTask.run(arguments: args, onCompletion: { (output) -> Void in
                 NSUserNotification.deliver("Your recording is ready", moreInfo: "", sound: true)
@@ -323,7 +323,7 @@ class DeviceViewController: NSViewController, NSPopoverDelegate, UserScriptDeleg
         let scalePref = UserDefaults.standard.double(forKey: C.PREF_SCALE)
         let args = [ffmpegPath, movPath, gifPath, "\(scalePref)", getFolderForScreenRecordings()]
         
-        ShellTasker(scriptFile: "convertMovieFiletoGif").run(arguments: args, isUserScript: false, isIOS: false) { (output) -> Void in
+        Script(fileName:  "convertMovieFiletoGif").run(arguments: args, isUserScript: false, isIOS: false) { (output) -> Void in
             print("done converting to gif")
             self.stopProgressIndication()
         }

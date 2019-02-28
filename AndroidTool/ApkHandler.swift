@@ -51,7 +51,7 @@ class ApkHandler: NSObject {
         delegate?.apkHandlerDidUpdate("Installing...")
         
         if device.adbIdentifier == nil { print("no adbIdentifier, aborting"); return }
-        let s = ShellTasker(scriptFile: "installApkOnDevice")
+        let s = Script(fileName:  "installApkOnDevice")
         
         s.run(arguments: [device.adbIdentifier!, filepath!]) { (output) -> Void in
             self.delegate?.apkHandlerDidUpdate("Installed")
@@ -62,7 +62,7 @@ class ApkHandler: NSObject {
     func uninstallPackageWithName(_ packageName:String, completion:@escaping ()->Void){
         print(">>Uninstall")
         delegate?.apkHandlerDidUpdate("Uninstalling app")
-        let s = ShellTasker(scriptFile: "uninstallPackageOnDevice")
+        let s = Script(fileName:  "uninstallPackageOnDevice")
         let args = [device.adbIdentifier!, packageName]
         
         s.run(arguments: args, isUserScript: false, isIOS: false) { (output) -> Void in
@@ -75,14 +75,14 @@ class ApkHandler: NSObject {
         print(">>apkgetinfofromapk")
         delegate?.apkHandlerDidUpdate("Getting info...")
         
-        let shell = ShellTasker(scriptFile: "getApkInfo")
+        let shell = Script(fileName:  "getApkInfo")
         shell.run(arguments: [self.filepath!]) { (output) -> Void in
             let apk = Apk(rawAaptBadgingData: output as String)
             self.delegate?.apkHandlerDidGetInfo(apk)
             
             // try getting the icon out
             
-            let iconShell = ShellTasker(scriptFile: "extractIconFromApk")
+            let iconShell = Script(fileName:  "extractIconFromApk")
             iconShell.run(arguments: [self.filepath!]) { (output) -> Void in
                 print("Ready to add nsurl path to apk object: \(output)")
                 
@@ -105,7 +105,7 @@ class ApkHandler: NSObject {
             
             print("apklaunch of \(ac)")
             
-            let s = ShellTasker(scriptFile: "launchActivity")
+            let s = Script(fileName:  "launchActivity")
             s.run(arguments: [device.adbIdentifier!, ac]) { (output) -> Void in
                 print("apk done launching")
                 self.delegate?.apkHandlerDidUpdate("Running \(apk.appName)")

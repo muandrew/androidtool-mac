@@ -30,7 +30,7 @@ class ObbHandler {
     func pushToDevice(){
         print(">>zip flash")
 
-        let shell = ShellTasker(scriptFile: "installObbForSerial")
+        let shell = Script(fileName:  "installObbForSerial")
         let bytes = String(byteCount: fileSize)
         
         delegate?.obbHandlerDidStart(bytes)

@@ -26,7 +26,7 @@ class DeviceDiscoverer:NSObject, IOSDeviceDelegate {
     let pollLock = Lock()
     
     func start(){
-        let checkTask = ShellTasker(scriptFile: "checkEnvironment")
+        let checkTask = Script(fileName:  "checkEnvironment")
         checkTask.outputIsVerbose = true;
         checkTask.run { (output) -> Void in print(output) };
         
@@ -75,7 +75,7 @@ class DeviceDiscoverer:NSObject, IOSDeviceDelegate {
     }
     
     func getSerials(_ thenDoThis: @escaping (_ serials:[String]?, _ gotResults:Bool)->Void, finished:@escaping ()->Void){
-        let task = ShellTasker(scriptFile: "getSerials")
+        let task = Script(fileName:  "getSerials")
         task.outputIsVerbose = true
         task.run() { (output) -> Void in
             let str = String(output)
@@ -94,7 +94,7 @@ class DeviceDiscoverer:NSObject, IOSDeviceDelegate {
 
     func getDetailsForSerial(_ serial:String, complete:@escaping (_ details:[String:String])->Void){
         print("getDetailsForSerial: \(serial)")
-        let task = ShellTasker(scriptFile: "getDetailsForSerial")
+        let task = Script(fileName:  "getDetailsForSerial")
         task.outputIsVerbose = true
         task.run(arguments: ["\(serial)"], isUserScript: false) { (output) -> Void in
             let detailsDict = self.getPropsFromString(output as String)

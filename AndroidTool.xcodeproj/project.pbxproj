@@ -57,7 +57,7 @@
 		C8B5148C1AE860EF0071C86A /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B5148A1AE860EF0071C86A /* DeviceViewController.swift */; };
 		C8B5148D1AE860EF0071C86A /* DeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8B5148B1AE860EF0071C86A /* DeviceViewController.xib */; };
 		C8B5148F1AE8703F0071C86A /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B5148E1AE8703F0071C86A /* Util.swift */; };
-		C8B9D47E1AE991D300927B96 /* ShellTasker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B9D47D1AE991D300927B96 /* ShellTasker.swift */; };
+		C8B9D47E1AE991D300927B96 /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B9D47D1AE991D300927B96 /* Script.swift */; };
 		C8B9D4801AE9B20600927B96 /* getDetailsForSerial.sh in Resources */ = {isa = PBXBuildFile; fileRef = C8B9D47C1AE9914200927B96 /* getDetailsForSerial.sh */; };
 		C8B9D4841AE9B34F00927B96 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = C8B9D4821AE9B34F00927B96 /* ffmpeg */; };
 		C8B9D4861AE9C3A100927B96 /* getSerials.sh in Resources */ = {isa = PBXBuildFile; fileRef = C8B9D4851AE9C3A100927B96 /* getSerials.sh */; };
@@ -158,7 +158,7 @@
 		C8B5148B1AE860EF0071C86A /* DeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceViewController.xib; sourceTree = "<group>"; };
 		C8B5148E1AE8703F0071C86A /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		C8B9D47C1AE9914200927B96 /* getDetailsForSerial.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = getDetailsForSerial.sh; sourceTree = "<group>"; };
-		C8B9D47D1AE991D300927B96 /* ShellTasker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellTasker.swift; sourceTree = "<group>"; };
+		C8B9D47D1AE991D300927B96 /* Script.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
 		C8B9D47F1AE9AEA800927B96 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8B9D4821AE9B34F00927B96 /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
 		C8B9D4851AE9C3A100927B96 /* getSerials.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = getSerials.sh; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 				EA17FA892086413A00CF8033 /* window_mover */,
 				C8B514651AE85D610071C86A /* AppDelegate.swift */,
 				C87E3AF61C0113DA00275AA2 /* Styles.swift */,
-				C8B9D47D1AE991D300927B96 /* ShellTasker.swift */,
+				C8B9D47D1AE991D300927B96 /* Script.swift */,
 				C8B514801AE85D8B0071C86A /* MasterViewController.swift */,
 				C8C86BF11C50AEEC0087858B /* ObbHandler.swift */,
 				C856FFD81BFB05CD0098B1E2 /* UITweaker.swift */,
@@ -538,7 +538,7 @@
 				C8BF506B1AFB393C005C725D /* IOSDeviceHelper.swift in Sources */,
 				C86C162C1C165B5E00E22CEC /* ZipHandler.swift in Sources */,
 				C83D2E091AEDD7A300CD066D /* scriptsPopoverViewController.swift in Sources */,
-				C8B9D47E1AE991D300927B96 /* ShellTasker.swift in Sources */,
+				C8B9D47E1AE991D300927B96 /* Script.swift in Sources */,
 				C8B5148C1AE860EF0071C86A /* DeviceViewController.swift in Sources */,
 				C8B514661AE85D610071C86A /* AppDelegate.swift in Sources */,
 				C87E3AE71BFF7DBB00275AA2 /* LoaderView.swift in Sources */,
