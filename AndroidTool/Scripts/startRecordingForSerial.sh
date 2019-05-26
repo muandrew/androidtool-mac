@@ -37,11 +37,24 @@ then
     "$adb" -s $serial shell screenrecord --size $sizeopt --o raw-frames /sdcard/screencapture.raw
 else
     echo "Recording from phone..."
+    
     orientation=$("$adb" -s $serial shell dumpsys input | grep 'SurfaceOrientation' | awk '{ print $2 }')
+
+    sizeopt=""
     if [[ "${orientation//[$'\t\r\n ']}" != "0" ]]
     then
-        "$adb" -s $serial shell screenrecord --bit-rate $bitrate --verbose --size $height"x"$width /sdcard/capture.mp4 # > $1/reclog.txt
+        sizeopt="--size ${height}x${width}"
     else
-        "$adb" -s $serial shell screenrecord --bit-rate $bitrate --verbose --size $width"x"$height /sdcard/capture.mp4 # > $1/reclog.txt
+        sizeopt="--size ${width}x${height}"
+    fi
+    
+    "$adb" -s $serial shell screenrecord --verbose --bit-rate $bitrate ${sizeopt} /sdcard/capture.mp4  # > $1/reclog.txt
+    
+    ## [bugre] UMI Max with Android 7, is 1920x1080 device, but recording setting this resolution
+    ## results in error. Must be: 1920x1088 or let it record without resolution defined.
+    ## Maybe this error also afects some other devices. 
+    if [ "$ret" != "0" ]; then
+        echo "Trying again, but now without setting the resolution."
+        "$adb" -s $serial shell screenrecord --verbose --bit-rate $bitrate /sdcard/capture.mp4  # > $1/reclog.txt
     fi
 fi
