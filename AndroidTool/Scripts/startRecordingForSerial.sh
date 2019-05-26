@@ -31,10 +31,10 @@ then
     # Put a --size option only if both params are available
     if [[ $width && $height ]]
     then
-        sizeopt=${width}x${height}
+        sizeopt="--size ${height}x${width}"
     fi
 
-    "$adb" -s $serial shell screenrecord --size $sizeopt --o raw-frames /sdcard/screencapture.raw
+    "$adb" -s $serial shell screenrecord $sizeopt --o raw-frames /sdcard/screencapture.raw
 else
     echo "Recording from phone..."
     
