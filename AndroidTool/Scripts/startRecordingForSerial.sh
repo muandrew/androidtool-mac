@@ -21,11 +21,11 @@ then
     # Get resolution if no custom res was specified
     if [[ ! $width ]]
     then
-        width=`"$adb" -s $serial shell dumpsys display | grep mDisplayWidth | awk -F '=' '{ print $2 }' | tr -d '\r\n'`
+        width=`"$adb" -s $serial shell dumpsys display | awk -F '=' '/mDisplayWidth/ { print $2 }' | tr -d '\r\n'`
     fi
     if [[ ! $height ]]
     then
-        height=`"$adb" -s $serial shell dumpsys display | grep mDisplayHeight | awk -F '=' '{ print $2 }' | tr -d '\r\n'`
+        height=`"$adb" -s $serial shell dumpsys display | awk -F '=' '/mDisplayHeight/ { print $2 }' | tr -d '\r\n'`
     fi
     sizeopt=""
     # Put a --size option only if both params are available
@@ -38,7 +38,7 @@ then
 else
     echo "Recording from phone..."
     
-    orientation=$("$adb" -s $serial shell dumpsys input | grep 'SurfaceOrientation' | awk '{ print $2 }')
+    orientation=$("$adb" -s $serial shell dumpsys input | awk '/SurfaceOrientation/ { print $2 }')
 
     sizeopt=""
     if [[ "${orientation//[$'\t\r\n ']}" != "0" ]]
@@ -50,7 +50,7 @@ else
     
     "$adb" -s $serial shell screenrecord --verbose --bit-rate $bitrate ${sizeopt} /sdcard/capture.mp4  # > $1/reclog.txt
     
-    ## [bugre] UMI Max with Android 7, is 1920x1080 device, but recording setting this resolution
+    ## [bugre] UMI Max with Android 7, is a 1920x1080 device, but recording setting this resolution
     ## results in error. Must be: 1920x1088 or let it record without resolution defined.
     ## Maybe this error also afects some other devices. 
     if [ "$ret" != "0" ]; then
