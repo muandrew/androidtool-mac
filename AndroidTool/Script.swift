@@ -15,7 +15,7 @@ class Script {
     private var task: Process?
     
     private var disposable: Any? {
-        didSet {
+        willSet(newValue) {
             NotificationCenter.default.removeObserver(disposable as Any)
         }
     }
@@ -27,10 +27,12 @@ class Script {
         print("T:\(fileName)")
     }
     
+/* TODO: renable when callers don't just discard the script reference.
     deinit {
         NotificationCenter.default.removeObserver(disposable as Any)
     }
-    
+ */
+ 
     func stop(){
         task?.terminate()
         disposable = nil
@@ -96,6 +98,7 @@ class Script {
                 DispatchQueue.main.async {
                     self.postNotification(output, channel: self.notificationChannel)
                     onCompletion(output)
+                    self.disposable = nil
                 }
             }
         }
