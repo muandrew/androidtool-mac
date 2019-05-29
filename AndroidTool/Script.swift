@@ -90,7 +90,8 @@ class Script {
             queue: nil)
         { (notification) in
             DispatchQueue.global(priority: .default).async {
-                let data = pipe.fileHandleForReading.availableData
+                // let data = pipe.fileHandleForReading.availableData // some scripts depend on the while file
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
                 let output = String(data: data, encoding: .utf8)!
                 DispatchQueue.main.async {
                     self.postNotification(output, channel: self.notificationChannel)
