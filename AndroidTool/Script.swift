@@ -81,8 +81,6 @@ class Script {
         
         // post a notification with the command, for the rawoutput debugging window
         postNotification(scriptPath, channel: notificationChannel)
-        self.task = task
-        task.launch()
         
         pipe.fileHandleForReading.waitForDataInBackgroundAndNotify()
         
@@ -102,6 +100,9 @@ class Script {
                 }
             }
         }
+        
+        self.task = task
+        task.launch()
     }
     
     private func postNotification(_ message: String, channel: Notification.Name) {
