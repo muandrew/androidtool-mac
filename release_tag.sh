@@ -2,7 +2,7 @@
 if [ -z "$1" ]
 then
     echo "usage:"
-    echo "sh release_tag.sh manjor.minor.patch" 
+    echo "sh release_tag.sh major.minor.patch" 
     exit 0
 fi
 
