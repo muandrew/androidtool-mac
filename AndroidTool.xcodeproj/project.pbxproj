@@ -440,10 +440,9 @@
 			};
 			buildConfigurationList = C8B5145B1AE85D600071C86A /* Build configuration list for PBXProject "AndroidTool" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
