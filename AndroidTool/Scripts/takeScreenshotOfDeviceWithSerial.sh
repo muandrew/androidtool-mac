@@ -16,6 +16,7 @@ thisdir=$1 # $1 is the bundle resources path directly from the calling script fi
 serial=$2
 screenshotFolder=$3
 activityName=$4
+sketch=/Applications/Sketch.app
 
 TakeScreenshot(){
     deviceName=$("$adb" -s $serial shell getprop ro.product.name)
@@ -34,7 +35,11 @@ TakeScreenshot(){
     "$adb" -s $serial pull /sdcard/$finalFileName
     "$adb" -s $serial shell rm /sdcard/$finalFileName
 
-    open $finalFileName
+    if [ -e $sketch ]; then
+        open -a $sketch $finalFileName
+    else
+        open  $finalFileName
+    fi
 }
 
 echo "###### $screenshotFolder"
