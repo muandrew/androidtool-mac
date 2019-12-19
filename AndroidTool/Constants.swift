@@ -15,6 +15,7 @@ class Constants {
     static let PREF_FLASHIMAGESINZIPFILES = "flashImagesInZipFiles"
     static let PREF_BATTERY_LEVEL = "batteryLevel"
     static let PREF_BIT_RATE = "bitratePref"
+    static let PREF_COMMAND_TO_OPEN_SCREENSHOT = "commandToOpenScreenshot"
     static let PREF_DATA_TYPE = "dataType"
     static let PREF_GENERATEGIF = "generateGif"
     static let PREF_LAUNCHINSTALLEDAPP = "launchInstalledApp"
@@ -24,6 +25,7 @@ class Constants {
     static let PREF_SCREENSHOTFOLDER = "screenshotsFolder"
     static let PREF_SCREENRECORDINGSFOLDER = "screenRecordingsFolder"
     static let PREF_USEACTIVITYINFILENAME = "useActivityInFilename"
+    static let PERF_USE_COMMAND_TO_OPEN_SCREENSHOT = "useCommandToOpenScreenshot"
     static let PREF_USE_USER_ANDROID_SDK_ROOT = "useUserAndroidSdkRoot"
     static let PREF_TIME_VALUE = "timeValue"
     static let PREF_VERBOSEOUTPUT = "verboseOutput"
@@ -35,6 +37,7 @@ class Constants {
     static let defaultPrefValues = [
         PREF_ANDROID_SDK_ROOT: "",
         PREF_BATTERY_LEVEL: "100%",
+        PREF_COMMAND_TO_OPEN_SCREENSHOT: "",
         PREF_FLASHIMAGESINZIPFILES: false,
         PREF_GENERATEGIF: false,
         PREF_LAUNCHINSTALLEDAPP: true,
@@ -44,6 +47,7 @@ class Constants {
         PREF_SCREENSHOTFOLDER: "",
         PREF_TIME_VALUE: "10:09",
         PREF_USEACTIVITYINFILENAME: true,
+        PERF_USE_COMMAND_TO_OPEN_SCREENSHOT: false,
         PREF_USE_USER_ANDROID_SDK_ROOT: false,
         PREF_VERBOSEOUTPUT: false,
     ] as [String : Any]
@@ -110,6 +114,25 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: #function)
+        }
+    }
+
+    var commandToOpenScreenshot: String? {
+        get {
+            return string(forKey: Constants.PREF_COMMAND_TO_OPEN_SCREENSHOT)
+        }
+        set {
+            set(newValue, forKey: Constants.PREF_COMMAND_TO_OPEN_SCREENSHOT)
+        }
+    }
+
+    var useCommandToOpenScreenshot: Bool {
+        get {
+            return bool(forKey: Constants.PERF_USE_COMMAND_TO_OPEN_SCREENSHOT)
+        }
+        set {
+            set(newValue,
+                forKey: Constants.PERF_USE_COMMAND_TO_OPEN_SCREENSHOT)
         }
     }
 }

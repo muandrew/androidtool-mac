@@ -34,7 +34,12 @@ TakeScreenshot(){
     "$adb" -s $serial pull /sdcard/$finalFileName
     "$adb" -s $serial shell rm /sdcard/$finalFileName
 
-    open $finalFileName
+    if [ -z $COMMAND_TO_OPEN_SCREENSHOT ]; then
+        open $finalFileName
+    else
+        FILE_NAME=$finalFileName
+        eval $COMMAND_TO_OPEN_SCREENSHOT
+    fi
 }
 
 echo "###### $screenshotFolder"

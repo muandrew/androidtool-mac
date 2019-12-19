@@ -71,12 +71,16 @@ class Script {
         let androidSdkRoot = useUserAndroidSdkRoot
             ? preferences.androidSdkRoot ?? defaultAndroidSdkRoot
             : defaultAndroidSdkRoot
+        let commandToOpenScreenshot = preferences.useCommandToOpenScreenshot
+            ? preferences.commandToOpenScreenshot ?? ""
+            : ""
         
         task.arguments = arguments
         task.standardOutput = pipe
         task.standardError = pipe
         task.environment = [
-            "ANDROID_SDK_ROOT": androidSdkRoot
+            "ANDROID_SDK_ROOT": androidSdkRoot,
+            "COMMAND_TO_OPEN_SCREENSHOT": commandToOpenScreenshot,
         ]
         
         // post a notification with the command, for the rawoutput debugging window
